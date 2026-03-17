@@ -11,6 +11,7 @@ from aiogram.types import Message
 from aiogram.filters import CommandStart
 from openai import OpenAI
 
+# initialisation
 
 bot = Bot(token=TOKEN)
 dp = Dispatcher()
