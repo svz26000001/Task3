@@ -105,6 +105,7 @@ async def voice_handler(message: Message):
     if not message.voice:
         return await message.answer("Надішли голосове повідомлення.")
 
+    await message.answer("109")
     file = await bot.get_file(message.voice.file_id)
     await bot.download_file(file.file_path, "voice.ogg")
 
