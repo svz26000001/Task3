@@ -107,9 +107,10 @@ async def voice_handler(message: Message):
 
     await message.answer("109")
     file = await bot.get_file(message.voice.file_id)
+    await message.answer("110")
     await bot.download_file(file.file_path, "voice.ogg")
 
-    await message.answer("109")
+    await message.answer("111")
     # Whisper transcription
     with open("voice.ogg", "rb") as audio:
         transcript = client.audio.transcriptions.create(
@@ -117,10 +118,10 @@ async def voice_handler(message: Message):
             file=audio
         )
 
-    await message.answer("109")
+    await message.answer("112")
     text = transcript.text
 
-    await message.answer("109")
+    await message.answer("113")
     now = datetime.datetime.now(tz)
     current_time_str = now.strftime("%Y-%m-%d %H:%M:%S %Z")
 
