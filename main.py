@@ -5,6 +5,7 @@ import asyncio
 import json
 import datetime
 import aiosqlite
+import os
 from pytz import timezone
 from aiogram import Bot, Dispatcher
 from aiogram.types import Message
@@ -112,11 +113,19 @@ async def voice_handler(message: Message):
 
     await message.answer("111")
     # Whisper transcription
-    with open("voice.ogg", "rb") as audio:
-        transcript = client.audio.transcriptions.create(
-            model="whisper-1",
-            file=audio
-        )
+
+    try:
+        file_path = os.path.abspath("voice.ogg")
+
+        with open(file_path, "rb") as audio:
+            transcript = client.audio.transcriptions.create(
+                model="whisper-1",
+                file=audio
+            )
+
+    except Exception as e:
+        await message.answer(f"ERROR: {e}")
+    
 
     await message.answer("112")
     text = transcript.text
