@@ -106,12 +106,9 @@ async def voice_handler(message: Message):
     if not message.voice:
         return await message.answer("Надішли голосове повідомлення.")
 
-    await message.answer(OPENAI_KEY)
     file = await bot.get_file(message.voice.file_id)
-    await message.answer("110")
     await bot.download_file(file.file_path, "voice.ogg")
 
-    await message.answer("111")
     # Whisper transcription
 
     try:
@@ -127,14 +124,11 @@ async def voice_handler(message: Message):
         await message.answer(f"ERROR: {e}")
     
 
-    await message.answer("112")
     text = transcript.text
 
-    await message.answer("113")
     now = datetime.datetime.now(tz)
     current_time_str = now.strftime("%Y-%m-%d %H:%M:%S %Z")
 
-    await message.answer("GPT parsing")
     # GPT parsing
     response = client.chat.completions.create(
         model="gpt-3.5-turbo",
@@ -158,13 +152,11 @@ async def voice_handler(message: Message):
         temperature=0
     )
 
-    await message.answer("after GPT parsing")
     try:
         data = json.loads(response.choices[0].message.content)
     except:
         return await message.answer("Ошибка парсинга GPT ответа")
 
-    await message.answer("153")
     task_text = data["task"]
 
     task_time = datetime.datetime.strptime(
@@ -172,13 +164,11 @@ async def voice_handler(message: Message):
         "%Y-%m-%d %H:%M:%S"
     )
 
-    await message.answer("161")
     task_time = tz.localize(task_time)
 
     if task_time.timestamp() < now.timestamp():
         task_time += datetime.timedelta(days=1)
 
-    await message.answer("167")
     await add_reminder(
         message.chat.id,
         task_text,
