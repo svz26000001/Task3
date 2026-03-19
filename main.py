@@ -1,6 +1,3 @@
-TOKEN = "8372571348:AAFzMByt_FgK-pkRZNYVB7AziwfwOpvDZM0"
-OPENAI_KEY = "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"
-
 import asyncio
 import json
 import datetime
@@ -11,6 +8,9 @@ from aiogram import Bot, Dispatcher
 from aiogram.types import Message
 from aiogram.filters import CommandStart
 from openai import OpenAI
+
+TOKEN = "8372571348:AAFzMByt_FgK-pkRZNYVB7AziwfwOpvDZM0"
+OPENAI_KEY = os.getenv("OPENAI_KEY")
 
 # initialisation
 
@@ -106,7 +106,7 @@ async def voice_handler(message: Message):
     if not message.voice:
         return await message.answer("Надішли голосове повідомлення.")
 
-    await message.answer("109")
+    await message.answer(OPENAI_KEY)
     file = await bot.get_file(message.voice.file_id)
     await message.answer("110")
     await bot.download_file(file.file_path, "voice.ogg")
